@@ -7,11 +7,11 @@ mysql_connect($dbhost,$dbuser,$dbpass) OR DIE ('Unable to connect to database! P
 mysql_select_db($dbname) or die( "Unable to select database");
 
 // Function to see if there is anything in a particular field
-function checkField ($fieldInput, $fieldName) {
+function checkField ($fieldInput, $className) {
 	if (!$fieldInput) {
 	}	
 	else {
-		echo $fieldName . ': ' . $fieldInput . '<br/>';
+		echo '<div class="' .$className. '">' . $fieldInput . '</div>';
 	}
 }
 
@@ -20,28 +20,21 @@ function checkField ($fieldInput, $fieldName) {
 // $#displayYear = current year you want to pull
 function displayEvents ($displayMonth, $sectionYear) {
 	global $displayYear;
-	$query="SELECT * FROM events WHERE startMonth='$displayMonth' AND startYear = $sectionYear AND schoolYear='$displayYear'";
+	$query="SELECT * FROM events WHERE startMonth='$displayMonth' AND startYear = $sectionYear AND schoolYear='$displayYear' ORDER BY startDate ASC";
 	$result=mysql_query($query); 
 	$rows=mysql_num_rows($result);
+	
+	echo '<tr class="empty"><td colspan="2"><h4>' .date('F', mktime(0, 0, 0, $displayMonth, 1, 2000)).' '.$sectionYear. '</h4></td></tr>';
+	
 	for ($i=0 ; $i<$rows ; ++$i)
 	{
 		$row = mysql_fetch_row($result);
-		echo 'ID: ' . $row[0] . '<br/>';
-		echo 'Event Title: ' . $row[1] . '<br/>';
-		echo 'School Year: ' . $row[2] . '<br/>';
-		
-		checkField ($row[3], 'Location');
-		checkField ($row[4], 'Description');
-		if (!$row[5]) {
-		}	
-		else {
-			echo 'Link: <a href="' .$row[5]. '"> Event Link</a> <br/>';
-		}
-		
-		echo 'Start: ' . date('F', mktime(0, 0, 0, $row[6], 1, 2000));
+		echo '<tr>';
+		echo '<td width="15%" valign="top">';
 
 		// Checks to see if there is a start date
 		if ($row[7] == 0) {
+			echo ' TBD';
 		} 
 		else {
 			 echo ' '. $row[7];
@@ -54,32 +47,61 @@ function displayEvents ($displayMonth, $sectionYear) {
 			echo ' &ndash; ' . $row[10];			
 		} 
 		else { // If end date is in a different month than the start date, print end month name
-			echo ', '. $row[8] . ' &ndash; ' . date('F', mktime(0, 0, 0, $row[9], 1, 2000)) . ' ' . $row[10];
+			echo ' &ndash; ' . date('F', mktime(0, 0, 0, $row[9], 1, 2000)) . ' ' . $row[10];
 		}
-
-		echo ', ' . $row[8] . '<br/>'; // Print the year
-
-		echo 'Post to Home: ' . $row[12];
-
-		echo '<br/><br/>';
+ 		
+		echo '</td>';
+		
+		echo '<td><div class="event">'. $row[1] . '</div> ';
+				
+		checkField ($row[3], 'location');
+		checkField ($row[4], 'description');
+		if (!$row[5]) {
+		}	
+		else {
+			echo '<a href="' .$row[5]. '">More Information</a> <br/>';
+		}
+		
+		echo '</td>';
+		echo '</tr>';
 	}
 }
 ?> 
 
-<!-- April Events -->
-<h1>April</h1>
-<?php displayEvents ('4', 2013); ?>
 
-<!-- March Events -->
-<h1>March</h1>
-<?php displayEvents ('3', 2013); ?>
 
-<!-- July Events -->
-<h1>July</h1>
+
+
+<table  width="605" border="0" cellspacing="0" cellpadding="8" id="calendar">
+
+<?php displayEvents ('6', 2013); ?>
+
 <?php displayEvents ('7', 2013); ?>
 
-<!-- October Events -->
-<h1>October</h1>
-<?php displayEvents ('10', 2014); ?>
+<?php displayEvents ('8', 2013); ?>
+
+<?php displayEvents ('9', 2013); ?>
+
+<?php displayEvents ('10', 2013); ?>
+
+<?php displayEvents ('11', 2013); ?>
+
+<?php displayEvents ('12', 2013); ?>
+
+<?php displayEvents ('1', 2014); ?>
+
+<?php displayEvents ('2', 2014); ?>
+
+<?php displayEvents ('3', 2014); ?>
+
+<?php displayEvents ('4', 2014); ?>
+
+<?php displayEvents ('5', 2014); ?>
+
+<?php displayEvents ('6', 2014); ?>
+
+<?php displayEvents ('7', 2014); ?>
+
+</table>
 
 <?php mysql_close(); ?>
