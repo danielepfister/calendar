@@ -1,4 +1,15 @@
-USE cadeca;
+/*
+
+This SQL script will create the database for the calendar webapp. 
+
+The only thing that needs to be changed is the name of the database used.
+Change the [DATABASENAME] and remove the []. 
+
+Once finish, run the script in your database. 
+
+*/
+
+USE [DATABASENAME];
 CREATE TABLE `events` (
   `id` int(11) NOT NULL auto_increment,
   `eventTitle` varchar(999) NOT NULL,
