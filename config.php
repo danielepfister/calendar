@@ -27,7 +27,7 @@ $dbhost='localhost';
 $dbuser='root';
 
 //Your MySQL password
-$dbpass='';
+$dbpass='root';
 
 //Your MySQL database name
 $dbname='sandbox';

@@ -44,7 +44,7 @@ else {
 	$rt=mysql_query($query);
 
 	if ($rt) {
-		echo "<h1>Event Updated!</h1><p><a href='list-all.php'>Return to Events Home</a></p>"; 
+		echo "<h1>Event Updated!</h1><p><a href='list.php'>Return to Events Home</a></p>"; 
 	}
 
 	else { 

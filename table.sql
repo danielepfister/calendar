@@ -9,7 +9,7 @@ Once finish, run the script in your database.
 
 */
 
-USE [DATABASENAME];
+USE DATABASENAME;
 CREATE TABLE `events` (
   `id` int(11) NOT NULL auto_increment,
   `eventTitle` varchar(999) NOT NULL,
